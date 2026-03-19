@@ -1,6 +1,8 @@
 from pydantic import BaseModel, EmailStr, Field, field_validator
 from typing import Optional, Literal
 
+TaskStatus = Literal["To Do", "In Progress", "Completed"]
+
 class UserRegister(BaseModel):
     email: EmailStr
     password: str
@@ -23,3 +25,8 @@ class TokenResponse(BaseModel):
 class TaskCreate(BaseModel):
     title: str = Field(..., min_length=1, max_length=200)
     description: Optional[str] = Field(default=None, max_length=2000)
+
+class TaskUpdate(BaseModel):
+    title: Optional[str] = Field(default=None, min_length=1, max_length=200)
+    description: Optional[str] = Field(default=None, max_length=2000)
+    status: Optional[TaskStatus] = None
