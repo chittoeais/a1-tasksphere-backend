@@ -29,3 +29,7 @@ async def login(payload: UserLogin, request: Request):
 
     token = create_access_token(payload.email)
     return TokenResponse(access_token=token)
+
+@router.post("/logout")
+async def logout():
+    return {"message": "Logged out successfully. Client should remove the token."}
