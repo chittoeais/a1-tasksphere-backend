@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, Request, status
-from app.models import UserRegister
-from app.auth import hash_password
+from app.models import UserRegister, UserLogin, TokenResponse
+from app.auth import hash_password, verify_password, create_access_token
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -18,3 +18,14 @@ async def register(payload: UserRegister, request: Request):
     })
 
     return {"message": "User registered successfully"}
+
+@router.post("/login", response_model=TokenResponse)
+async def login(payload: UserLogin, request: Request):
+    users = request.app.database["users"]
+
+    user = await users.find_one({"email": payload.email})
+    if not user or not verify_password(payload.password, user["password_hash"]):
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
+
+    token = create_access_token(payload.email)
+    return TokenResponse(access_token=token)
