@@ -10,5 +10,7 @@ class Settings(BaseSettings):
     APP_NAME: str = "TaskSphere API"
     MONGODB_URL: str
     MONGODB_DB_NAME: str = "tasksphere"
+    SECRET_KEY: str
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
 
 settings = Settings()
