@@ -30,3 +30,10 @@ class TaskUpdate(BaseModel):
     title: Optional[str] = Field(default=None, min_length=1, max_length=200)
     description: Optional[str] = Field(default=None, max_length=2000)
     status: Optional[TaskStatus] = None
+
+class TaskOut(BaseModel):
+    id: str
+    title: str
+    description: Optional[str] = None
+    status: str
+    owner_email: str
