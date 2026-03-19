@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.config import settings
 from app.database import lifespan
 from app.routes.auth import router as auth_router
+from app.routes.task import router as task_router
 
 app = FastAPI(title=settings.APP_NAME, lifespan=lifespan)
 
@@ -15,6 +16,7 @@ app.add_middleware(
 )
 
 app.include_router(auth_router)
+app.include_router(task_router)
 
 @app.get("/health")
 async def health():
